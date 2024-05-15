@@ -20,5 +20,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapAccountEndpoints();
+app.MapChallengeEndpoints();
 
 app.Run();
