@@ -17,7 +17,7 @@ namespace ai_code_challenger.Models
                 }
             }
         }
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
 

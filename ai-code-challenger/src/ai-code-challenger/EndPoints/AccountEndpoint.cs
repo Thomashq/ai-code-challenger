@@ -22,7 +22,7 @@ namespace ai_code_challenger.EndPoints
 
                     var accountsList = await context.Account
                     .AsNoTracking()
-                    .Where(a=>a.DeleteDate != null)
+                    .Where(a=>a.DeleteDate == null)
                     .Skip(skip)
                     .Take(take)
                     .ToListAsync();
@@ -38,7 +38,7 @@ namespace ai_code_challenger.EndPoints
             app.MapGet("/admin/accounts/{id:long}", async (DataContext context, long id) => 
             { 
                 var account = await context.Account
-                .FirstOrDefaultAsync(a => a.DeleteDate != null && a.Id == id);
+                .FirstOrDefaultAsync(a => a.DeleteDate == null && a.Id == id);
 
                 if(account == null)
                     Results.NotFound($"Nenhuma conta com o id {id} foi encontrada");
@@ -66,7 +66,7 @@ namespace ai_code_challenger.EndPoints
                         }
                     }
 
-                    account.UpdateDate = DateTime.Now;
+                    account.UpdateDate = DateTime.UtcNow;
                     context.Account.Update(account);
 
                     await context.SaveChangesAsync();
@@ -83,6 +83,8 @@ namespace ai_code_challenger.EndPoints
             {
                 try
                 {
+                    account.CreationDate = DateTime.UtcNow;
+                    account.IsVerified = false;
                     await context.Account.AddAsync(account);
 
                     await context.SaveChangesAsync();
@@ -99,18 +101,18 @@ namespace ai_code_challenger.EndPoints
             {
                 try
                 {
-                    var account = await context.Account.FirstOrDefaultAsync(a => a.DeleteDate != null && a.Id == id);
+                    var account = await context.Account.FirstOrDefaultAsync(a => a.DeleteDate == null && a.Id == id);
 
                     if (account == null)
                         Results.NotFound($"A conta com id {id} não foi encontrada");
 
-                    account.DeleteDate = DateTime.Now;
+                    account.DeleteDate = DateTime.UtcNow;
 
                     context.Account.Update(account);
 
                     await context.SaveChangesAsync();
 
-                    return Results.Ok($"A conta com o id {id}, foi atualizada com sucesso");
+                    return Results.Ok($"A conta com o id {id}, foi deletada com sucesso");
                 }
                 catch(Exception ex)
                 {
@@ -123,14 +125,14 @@ namespace ai_code_challenger.EndPoints
                 try
                 {
                     var accountsToDelete = await context.Account
-                    .Where(s => ids.Contains(s.Id) && s.DeleteDate != null)
+                    .Where(s => ids.Contains(s.Id) && s.DeleteDate == null)
                     .ToListAsync();
 
                     if (accountsToDelete.Count == 0)
                         return Results.NotFound($"Não foi possível achar nenhuma conta para deletar");
 
                     foreach (var account in accountsToDelete)
-                        account.DeleteDate = DateTime.Now;
+                        account.DeleteDate = DateTime.UtcNow;
                     
                     context.Account.UpdateRange(accountsToDelete);
                     await context.SaveChangesAsync();

@@ -10,6 +10,6 @@
 
         public int? SolvedAmmount { get; set; }
 
-        public bool IsVerified { get; set; }
+        public bool? IsVerified { get; set; }
     }
 }
