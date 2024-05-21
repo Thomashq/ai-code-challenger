@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace ai_code_challenger.Models
 {
@@ -17,6 +18,7 @@ namespace ai_code_challenger.Models
                 }
             }
         }
+        [Required(ErrorMessage = "É necessário informar a data de criação")]
         public DateTime? CreationDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
