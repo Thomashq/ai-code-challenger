@@ -21,5 +21,4 @@ namespace ai_code_challenger.Models
 
         public bool? IsVerified { get; set; } = false;
     }
-}
-object 
+} 
