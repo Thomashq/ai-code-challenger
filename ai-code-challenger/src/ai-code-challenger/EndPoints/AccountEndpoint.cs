@@ -1,5 +1,6 @@
 ﻿using ai_code_challenger.Data;
 using ai_code_challenger.Models;
+using ai_code_challenger.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -120,12 +121,14 @@ namespace ai_code_challenger.EndPoints
                 }
             }).WithTags("Accounts").WithSummary("Delete account by id");
 
-            app.MapDelete("/admin/accounts", async (DataContext context, [FromBody] IEnumerable<long> ids) =>
+            app.MapDelete("/admin/accounts", async (DataContext context, [FromBody] Util ids) =>
             {
                 try
                 {
+                    List<long> idList = ids.ids;
+
                     var accountsToDelete = await context.Account
-                    .Where(s => ids.Contains(s.Id) && s.DeleteDate == null)
+                    .Where(s => idList.Contains(s.Id) && s.DeleteDate == null)
                     .ToListAsync();
 
                     if (accountsToDelete.Count == 0)
