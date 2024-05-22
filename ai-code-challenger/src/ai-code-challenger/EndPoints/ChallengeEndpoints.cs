@@ -1,5 +1,6 @@
 ﻿using ai_code_challenger.Data;
 using ai_code_challenger.Models;
+using ai_code_challenger.Utility;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
@@ -22,7 +23,7 @@ namespace ai_code_challenger.EndPoints
 
                     var challengList = await context.Challenge
                     .AsNoTracking()
-                    .Where(a => a.DeleteDate != null)
+                    .Where(a => a.DeleteDate == null)
                     .Skip(skip)
                     .Take(take)
                     .ToListAsync();
@@ -38,7 +39,7 @@ namespace ai_code_challenger.EndPoints
             app.MapGet("/admin/challenges/{id:long}", async (DataContext context, long id) =>
             {
                 var challenge = await context.Challenge
-                .FirstOrDefaultAsync(a => a.DeleteDate != null && a.Id == id);
+                .FirstOrDefaultAsync(a => a.DeleteDate == null && a.Id == id);
 
                 if (challenge == null)
                     Results.NotFound($"Nenhuma conta com o id {id} foi encontrada");
@@ -66,7 +67,7 @@ namespace ai_code_challenger.EndPoints
                         }
                     }
 
-                    challenge.UpdateDate = DateTime.Now;
+                    challenge.UpdateDate = DateTime.UtcNow;
                     context.Challenge.Update(challenge);
 
                     await context.SaveChangesAsync();
@@ -83,6 +84,14 @@ namespace ai_code_challenger.EndPoints
             {
                 try
                 {
+                    challenge.CreationDate = DateTime.UtcNow;
+                    challenge.IsSolved = true;
+                    var account = await context.Account
+                    .FirstOrDefaultAsync(a => a.DeleteDate == null && a.Id == challenge.AccountId);
+
+                    if (account == null)
+                        Results.Problem("A conta vinculada a essa questão não existe");
+
                     await context.Challenge.AddAsync(challenge);
 
                     await context.SaveChangesAsync();
@@ -99,12 +108,12 @@ namespace ai_code_challenger.EndPoints
             {
                 try
                 {
-                    var challenge = await context.Challenge.FirstOrDefaultAsync(a => a.DeleteDate != null && a.Id == id);
+                    var challenge = await context.Challenge.FirstOrDefaultAsync(a => a.DeleteDate == null && a.Id == id);
 
                     if (challenge == null)
                         Results.NotFound($"A questão com id {id} não foi encontrada");
 
-                    challenge.DeleteDate = DateTime.Now;
+                    challenge.DeleteDate = DateTime.UtcNow;
 
                     context.Challenge.Update(challenge);
 
@@ -118,12 +127,13 @@ namespace ai_code_challenger.EndPoints
                 }
             }).WithTags("Challenge").WithSummary("Delete challenge by id");
 
-            app.MapDelete("/admin/challenges", async (DataContext context, [FromBody] IEnumerable<long> ids) =>
+            app.MapDelete("/admin/challenges", async (DataContext context, [FromBody] Util ids) =>
             {
                 try
                 {
+                    List<long> idList = ids.ids;
                     var challengesToDelete = await context.Challenge
-                    .Where(s => ids.Contains(s.Id) && s.DeleteDate != null)
+                    .Where(s => idList.Contains(s.Id) && s.DeleteDate == null)
                     .ToListAsync();
 
                     if (challengesToDelete.Count == 0)
