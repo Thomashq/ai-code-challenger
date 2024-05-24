@@ -1,3 +1,4 @@
+﻿using System.ComponentModel.DataAnnotations;
 namespace ai_code_challenger.common;
 
 public class Account : BaseModel

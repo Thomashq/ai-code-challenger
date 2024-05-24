@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 namespace ai_code_challenger.common;
 
 public abstract class BaseModel

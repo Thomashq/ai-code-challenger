@@ -26,4 +26,8 @@
     <PackageReference Include="System.AppContext" Version="4.3.0" />
     <PackageReference Include="System.Reflection.Context" Version="8.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ai-code-challenger.frontend\ai-code-challenger.frontend.csproj" />
+    <ProjectReference Include="..\ai-code-challenger.common\ai-code-challenger.common.csproj" />
+  </ItemGroup>
 </Project>

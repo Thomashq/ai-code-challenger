@@ -1,9 +1,9 @@
 ﻿using ai_code_challenger.Data;
-using ai_code_challenger.Models;
 using ai_code_challenger.Utility;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using ai_code_challenger.common;
 using System.Reflection;
 
 namespace ai_code_challenger.EndPoints
