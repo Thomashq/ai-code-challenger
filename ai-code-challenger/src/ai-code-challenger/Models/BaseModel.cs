@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace ai_code_challenger.Models
 {
@@ -17,10 +18,17 @@ namespace ai_code_challenger.Models
                 }
             }
         }
-        public DateOnly CreationDate { get; set; }
+        [Required(ErrorMessage = "É necessário informar a data de criação")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? CreationDate { get; set; }
 
-        public DateOnly? UpdateDate { get; set; }
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? UpdateDate { get; set; }
 
-        public DateOnly? DeleteDate { get; set; }
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? DeleteDate { get; set; }
     }
 }
