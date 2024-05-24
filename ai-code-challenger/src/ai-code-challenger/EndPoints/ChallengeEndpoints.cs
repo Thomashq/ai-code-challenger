@@ -2,8 +2,8 @@
 using ai_code_challenger.Models;
 using ai_code_challenger.Utility;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
 using System.Reflection;
 
 namespace ai_code_challenger.EndPoints
@@ -85,13 +85,7 @@ namespace ai_code_challenger.EndPoints
                 try
                 {
                     challenge.CreationDate = DateTime.UtcNow;
-                    challenge.IsSolved = true;
-                    var account = await context.Account
-                    .FirstOrDefaultAsync(a => a.DeleteDate == null && a.Id == challenge.AccountId);
-
-                    if (account == null)
-                        Results.Problem("A conta vinculada a essa questão não existe");
-
+                    challenge.IsSolved = false;
                     await context.Challenge.AddAsync(challenge);
 
                     await context.SaveChangesAsync();
@@ -132,6 +126,7 @@ namespace ai_code_challenger.EndPoints
                 try
                 {
                     List<long> idList = ids.ids;
+
                     var challengesToDelete = await context.Challenge
                     .Where(s => idList.Contains(s.Id) && s.DeleteDate == null)
                     .ToListAsync();
@@ -140,7 +135,7 @@ namespace ai_code_challenger.EndPoints
                         return Results.NotFound($"Não foi possível achar nenhuma conta para deletar");
 
                     foreach (var challenge in challengesToDelete)
-                        challenge.DeleteDate = DateTime.Now;
+                        challenge.DeleteDate = DateTime.UtcNow;
 
                     context.Challenge.UpdateRange(challengesToDelete);
                     await context.SaveChangesAsync();
