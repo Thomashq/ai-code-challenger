@@ -1,6 +1,5 @@
 ﻿using ai_code_challenger.Data;
 using ai_code_challenger.common;
-using ai_code_challenger.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
