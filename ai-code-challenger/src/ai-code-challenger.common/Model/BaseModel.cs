@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+namespace ai_code_challenger.common;
 
-namespace ai_code_challenger.Models
-{
-    public abstract class BaseModel
+public abstract class BaseModel
     {
         public long Id { get; set; }
 
@@ -31,4 +28,3 @@ namespace ai_code_challenger.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? DeleteDate { get; set; }
     }
-}

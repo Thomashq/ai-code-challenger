@@ -1,4 +1,4 @@
-﻿using ai_code_challenger.Models;
+﻿using ai_code_challenger.common;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Security.Permissions;

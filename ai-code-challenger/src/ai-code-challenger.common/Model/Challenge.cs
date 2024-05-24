@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+namespace ai_code_challenger.common;
 
-namespace ai_code_challenger.Models
-{
     public class Challenge:BaseModel
     {
         [Required(ErrorMessage = "É necessário enviar o enunciado")]
@@ -16,4 +13,3 @@ namespace ai_code_challenger.Models
         [ForeignKey("Account")]
         public long AccountId { get; set; }
     }
-}
