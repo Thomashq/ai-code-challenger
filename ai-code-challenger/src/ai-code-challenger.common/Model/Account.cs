@@ -19,4 +19,6 @@ public class Account : BaseModel
     public int? SolvedAmmount { get; set; } = 0;
 
     public bool? IsVerified { get; set; } = false;
+
+    public string? Role { get; set; }
 }

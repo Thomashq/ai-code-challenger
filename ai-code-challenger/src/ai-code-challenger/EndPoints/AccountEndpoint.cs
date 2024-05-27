@@ -33,7 +33,7 @@ namespace ai_code_challenger.EndPoints
                 {
                     throw new Exception("Ocorreu o erro a seguir: " + ex.Message);
                 }
-            }).RequireAuthorization().WithTags("Accounts").WithSummary("Get all not deleted accounts");
+            }).RequireAuthorization();
 
             app.MapGet("/admin/accounts/{id:long}", async (DataContext context, long id) => 
             { 
