@@ -1,4 +1,5 @@
 using ai_code_challenger.common;
+using ai_code_challenger.common.Enums;
 using ai_code_challenger.Data;
 using ai_code_challenger.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ public static class AuthenticationEndpoint
                 account.Password = Criptography.PasswordEncrypt(account.Password);
                 account.CreationDate = DateTime.UtcNow;
                 account.IsVerified = false;
-                account.Role = "user";
+                account.Role = EnumExtensionMethods.GetEnumDescription(EAccountType.User);
 
                 var existingAccount = context.Account.FirstOrDefault(a => a.Login == account.Login || a.Mail == account.Mail);
 
