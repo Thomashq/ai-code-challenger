@@ -1,8 +1,7 @@
-using System.Net.Http.Headers;
 using ai_code_challenger.common;
 using ai_code_challenger.Data;
-using ai_code_challenger.frontend;
 using ai_code_challenger.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ai_code_challenger.EndPoints;
 
@@ -10,12 +9,14 @@ public static class AuthenticationEndpoint
 {
     public static void MapAuthenticationEndpoint(this WebApplication app)
     {
-        app.MapPost("/authenticate/login", (DataContext context, string login, string pwd) =>
+        app.MapPost("/authenticate/login", (DataContext context, [FromBody]Login login) =>
         {
             try
             {
-                var account = context.Account.FirstOrDefault(a => a.Login == login && a.Password == pwd  
-                || a.Mail == login && a.Password == pwd);
+                login.Password = Criptography.PasswordEncrypt(login.Password);
+
+                var account = context.Account.FirstOrDefault(a => (a.Login == login.UsernameOrEmail && a.Password == login.Password)  
+                || (a.Mail == login.UsernameOrEmail && a.Password == login.Password));
 
                 if(account == null)
                     return Results.NotFound("Nome ou senha inválidos");
@@ -34,6 +35,7 @@ public static class AuthenticationEndpoint
         {
             try
             {
+                account.Password = Criptography.PasswordEncrypt(account.Password);
                 account.CreationDate = DateTime.UtcNow;
                 account.IsVerified = false;
                 account.Role = "user";

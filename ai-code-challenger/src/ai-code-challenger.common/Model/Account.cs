@@ -9,7 +9,6 @@ public class Account : BaseModel
     public string? Login { get; set; }
 
     [Required(ErrorMessage = "É necessário enviar a Senha")]
-    [MaxLength(20, ErrorMessage = "O tamanho máximo da senha é de 20 caracteres")]
     [MinLength(3, ErrorMessage = "A senha deve ter pelo menos 4 caracteres")]
     public string? Password { get; set; }
 

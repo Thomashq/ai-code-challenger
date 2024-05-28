@@ -18,7 +18,7 @@ namespace ai_code_challenger.EndPoints
                     var totalCount = await context.Account.CountAsync();
 
                     if (totalCount == 0)
-                        return Results.NotFound("No accounts found");
+                        return Results.NotFound("Nenhuma contra foi encontrada");
 
                     var accountsList = await context.Account
                     .AsNoTracking()
@@ -33,7 +33,7 @@ namespace ai_code_challenger.EndPoints
                 {
                     throw new Exception("Ocorreu o erro a seguir: " + ex.Message);
                 }
-            }).RequireAuthorization();
+            });
 
             app.MapGet("/admin/accounts/{id:long}", async (DataContext context, long id) => 
             { 
@@ -50,7 +50,8 @@ namespace ai_code_challenger.EndPoints
             {
                 try
                 {
-                    var account = await context.Account.FirstOrDefaultAsync(a => a.DeleteDate != null && a.Id == id);
+                    var account = await context.Account.FirstOrDefaultAsync(a => a.DeleteDate == null && a.Id == id);
+                    updatedAccount.Password = Criptography.PasswordEncrypt(updatedAccount.Password);
 
                     if (account == null)
                         Results.NotFound($"A conta com id {id} não foi encontrada");
@@ -83,8 +84,10 @@ namespace ai_code_challenger.EndPoints
             {
                 try
                 {
+                    account.Password = Criptography.PasswordEncrypt(account.Password);
                     account.CreationDate = DateTime.UtcNow;
                     account.IsVerified = false;
+            
                     await context.Account.AddAsync(account);
 
                     await context.SaveChangesAsync();

@@ -45,6 +45,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 var app = builder.Build();
 
 app.MapAccountEndpoints();
+app.MapAuthenticationEndpoint();
 app.MapChallengeEndpoints();
 
 app.UseCors();
