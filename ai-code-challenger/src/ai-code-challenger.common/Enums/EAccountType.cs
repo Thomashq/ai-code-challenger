@@ -7,5 +7,7 @@ public enum EAccountType
     [Description("manager")]
     Admin = 1,
     [Description("user")]
-    User = 2
+    User = 2,
+    [Description("premiun")]
+    Premium = 3
 }

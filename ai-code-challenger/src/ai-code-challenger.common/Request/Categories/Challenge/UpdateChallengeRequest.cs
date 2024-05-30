@@ -1,15 +1,21 @@
 using System.ComponentModel.DataAnnotations;
 using ai_code_challenger.common.Enums;
 
-namespace ai_code_challenger.common.Request.Challenges;
+namespace ai_code_challenger.common.Request.Categories.Challenges;
 
 public class UpdateChallengeRequest : Request
 {
+    [Required(ErrorMessage = "Id inválido")]
+    public long? ChallengeId { get; set; }
+
     [Required(ErrorMessage = "Resposta Inválida")]
-    public string Answer { get; set; }
+    public string? Answer { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Título inválido")]
+    public string? Title { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "A resposta tem que conter uma linguagem para correção")]
-    public ESupportedLanguages Laguage { get; set; } = ESupportedLanguages.C;
+    public string? Laguage { get; set; } = ESupportedLanguages.C.GetEnumDescription();
 
     public bool IsSolved { get; set; } = false;
 }

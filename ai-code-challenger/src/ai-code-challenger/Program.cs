@@ -1,18 +1,21 @@
 using System.Text;
+using ai_code_challenger;
+using ai_code_challenger.Api;
 using ai_code_challenger.common;
-using ai_code_challenger.Data;
 using ai_code_challenger.EndPoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var key = Encoding.ASCII.GetBytes(Settings.Secret);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddCors();
-builder.Services.AddSwaggerGen();
+//a ordem importa
+builder.AddConfiguration();
+builder.AddDataContext();
+builder.AddCrossOrigin();
+builder.AddDocumentation();
+builder.AddServices();
 
 builder.Services.AddAuthentication(x =>
 {
@@ -37,18 +40,13 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("User", policy => policy.RequireRole("user"));
 });
 
-builder.Services.AddDbContext<DataContext>(options =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString("AIChallenges"));
-});
-
 var app = builder.Build();
 
-app.MapAccountEndpoints();
-app.MapAuthenticationEndpoint();
-app.MapChallengeEndpoints();
+if(app.Environment.IsDevelopment())
+    app.ConfigureDevEnvironment();
 
-app.UseCors();
+app.UseCors(ApiConfiguration.CorsPolicyName);
+app.MapEndpoints();
 app.UseAuthentication();
 app.UseAuthorization();
 

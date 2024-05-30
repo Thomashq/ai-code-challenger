@@ -17,7 +17,7 @@ public class Response<TData>
         _code = code;
         Message = message;
     }
-    public TData Data { get; set; }
+    public TData? Data { get; set; }
 
     public string? Message { get; set; }
 

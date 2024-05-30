@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 namespace ai_code_challenger.common;
 
-public static class EnumExtensionMethods
+public static class EnumExtension
 {
      public static string GetEnumDescription(this Enum enumValue)  
         {  

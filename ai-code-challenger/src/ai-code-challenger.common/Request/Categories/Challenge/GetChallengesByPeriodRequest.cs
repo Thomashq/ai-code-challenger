@@ -1,4 +1,4 @@
-namespace ai_code_challenger.common.Request.Challenges;
+namespace ai_code_challenger.common.Request.Categories.Challenges;
 
 public class GetChallengesByPeriodRequest : PagedRequest
 {
