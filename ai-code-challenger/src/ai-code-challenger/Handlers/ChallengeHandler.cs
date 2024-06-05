@@ -30,7 +30,7 @@ public class ChallengeHandler(DataContext context) : IChallengeHandler
         }
         catch (Exception ex)
         {
-            return new Response<Challenge?>(null, 500, "Não foi possível criar o desafio");
+            return new Response<Challenge?>(null, 500, ex.Message);
         }
     }
 
@@ -55,7 +55,7 @@ public class ChallengeHandler(DataContext context) : IChallengeHandler
         }
         catch (Exception ex)
         {
-            return new Response<Challenge?>(null, 500, "Não foi possível deletar o desafio");
+            return new Response<Challenge?>(null, 500, ex.Message);
         }
     }
 
@@ -86,7 +86,7 @@ public class ChallengeHandler(DataContext context) : IChallengeHandler
         }
         catch (Exception ex)
         {
-            return new Response<List<Challenge>?>(null, 500, "Não foi possível deletar os desafio");
+            return new Response<List<Challenge>?>(null, 500, ex.Message);
         }
     }
 
