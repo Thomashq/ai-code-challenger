@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var key = Encoding.ASCII.GetBytes(Settings.Secret);
+//var key = Encoding.ASCII.GetBytes(Settings.Secret);
 
 //a ordem importa
 builder.AddConfiguration();
@@ -17,7 +17,7 @@ builder.AddCrossOrigin();
 builder.AddDocumentation();
 builder.AddServices();
 
-builder.Services.AddAuthentication(x =>
+/*builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -39,7 +39,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Admin", policy => policy.RequireRole("manager"));
     options.AddPolicy("User", policy => policy.RequireRole("user"));
 });
-
+*/
 var app = builder.Build();
 
 if(app.Environment.IsDevelopment())
