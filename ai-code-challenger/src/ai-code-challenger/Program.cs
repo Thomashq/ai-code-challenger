@@ -1,30 +1,48 @@
-using ai_code_challenger.Data;
+using ai_code_challenger;
+using ai_code_challenger.Api;
 using ai_code_challenger.EndPoints;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddCors();
-builder.Services.AddSwaggerGen();
-builder.Services.AddAuthentication().AddJwtBearer();
-builder.Services.AddAuthorization();
-builder.Services.AddDbContext<DataContext>(options =>
+//var key = Encoding.ASCII.GetBytes(Settings.Secret);
+
+//a ordem importa
+builder.AddConfiguration();
+builder.AddDataContext();
+builder.AddCrossOrigin();
+builder.AddDocumentation();
+builder.AddServices();
+
+/*builder.Services.AddAuthentication(x =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("AIChallenges"));
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
 });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireRole("manager"));
+    options.AddPolicy("User", policy => policy.RequireRole("user"));
+});
+*/
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+if(app.Environment.IsDevelopment())
+    app.ConfigureDevEnvironment();
 
-app.MapAccountEndpoints();
-app.MapChallengeEndpoints();
-
-app.UseCors();
+app.UseCors(ApiConfiguration.CorsPolicyName);
+app.MapEndpoints();
 app.UseAuthentication();
 app.UseAuthorization();
 
