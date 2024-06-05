@@ -1,9 +1,10 @@
 using ai_code_challenger.EndPoints.Api;
 using ai_code_challenger.common;
 using ai_code_challenger.common.Handlers;
+using ai_code_challenger.common.Model;
+using ai_code_challenger.common.Request.Categories.Challenge;
 using ai_code_challenger.common.Response;
 using Microsoft.AspNetCore.Mvc;
-using ai_code_challenger.common.Request.Categories.Challenges;
 
 namespace ai_code_challenger.EndPoints.ChallengeEndpoints;
 

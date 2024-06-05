@@ -5,7 +5,7 @@ namespace ai_code_challenger.common.Request.Categories.Account;
 public class UpdateAccountRequest : Request
 {
     [Required(ErrorMessage = "Id inválido")]
-    public long AccountId { get; set; } = 0;
+    public long Id { get; set; } = 0;
     
     public string? Login { get; set; }
 

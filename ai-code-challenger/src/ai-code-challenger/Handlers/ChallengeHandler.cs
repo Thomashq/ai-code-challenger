@@ -1,10 +1,10 @@
-using System.Data;
-using System.Data.Entity;
-using ai_code_challenger.common;
 using ai_code_challenger.common.Handlers;
-using ai_code_challenger.common.Request.Categories.Challenges;
+using ai_code_challenger.common.Model;
+using ai_code_challenger.common.Request.Categories.Challenge;
 using ai_code_challenger.common.Response;
+using ai_code_challenger.common.Utility;
 using ai_code_challenger.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ai_code_challenger.Handlers;
 
@@ -94,12 +94,12 @@ public class ChallengeHandler(DataContext context) : IChallengeHandler
     {
         try
         {
-            var query = context
+            var query =  context
                 .Challenge
-                .AsNoTracking()
-                .Where(x => x.AccountId == request.AccountId && x.DeleteDate == null)
+                .AsNoTracking() 
+                .Where(x => x.DeleteDate == null)
                 .OrderBy(x => x.Title);
-
+                
             var challenges = await query
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
@@ -115,7 +115,7 @@ public class ChallengeHandler(DataContext context) : IChallengeHandler
         }
         catch (Exception ex)
         {
-            return new PagedResponse<List<Challenge>?>(null, 500, "Não foi possível encontrar os desafios");
+            return new PagedResponse<List<Challenge>?>(null, 500, ex.Message);
         }
     }
 
@@ -147,7 +147,7 @@ public class ChallengeHandler(DataContext context) : IChallengeHandler
         }
         catch (Exception ex)
         {
-            return new PagedResponse<List<Challenge>?>(null, 500, "Não foi possível encontrar os desafios");
+            return new PagedResponse<List<Challenge>?>(null, 500, ex.Message);
         }
     }
 
@@ -164,9 +164,9 @@ public class ChallengeHandler(DataContext context) : IChallengeHandler
                 ? new Response<Challenge?>(null, 404, message: "Não foi possível encontrar o desafio")
                 : new Response<Challenge?>(challenge);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return new Response<Challenge?>(null, 500, "Não foi possível encontrar o desafio");
+            return new Response<Challenge?>(null, 500, ex.Message);
         }
     }
 
@@ -195,7 +195,7 @@ public class ChallengeHandler(DataContext context) : IChallengeHandler
         }
         catch (Exception ex)
         {
-            return new Response<Challenge?>(null, 500, "Não foi possível atualizar o desafio");
+            return new Response<Challenge?>(null, 500, ex.Message);
         }
     }
 }

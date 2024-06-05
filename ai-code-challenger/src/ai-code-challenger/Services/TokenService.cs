@@ -2,6 +2,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ai_code_challenger.common;
+using ai_code_challenger.common.Model;
+using ai_code_challenger.common.Utility;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ai_code_challenger.Services;

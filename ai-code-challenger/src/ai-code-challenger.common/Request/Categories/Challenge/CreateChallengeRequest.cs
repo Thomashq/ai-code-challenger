@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ai_code_challenger.common.Request.Categories.Challenges;
+namespace ai_code_challenger.common.Request.Categories.Challenge;
 
 public class CreateChallengeRequest : Request
 {

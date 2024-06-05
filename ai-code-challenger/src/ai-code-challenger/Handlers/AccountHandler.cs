@@ -3,12 +3,14 @@ using System.Reflection.Metadata.Ecma335;
 using ai_code_challenger.common;
 using ai_code_challenger.common.Enums;
 using ai_code_challenger.common.Handlers;
+using ai_code_challenger.common.Model;
 using ai_code_challenger.common.Request.Categories.Account;
 using ai_code_challenger.common.Response;
+using ai_code_challenger.common.Utility;
 using ai_code_challenger.Data;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
-namespace ai_code_challenger;
+namespace ai_code_challenger.Handlers;
 
 public class AccountHandler(DataContext context) : IAccountHandler
 {

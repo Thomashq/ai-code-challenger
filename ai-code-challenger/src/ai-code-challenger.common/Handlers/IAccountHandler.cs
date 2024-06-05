@@ -1,3 +1,4 @@
+using ai_code_challenger.common.Model;
 using ai_code_challenger.common.Request.Categories.Account;
 using ai_code_challenger.common.Response;
 

@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using ai_code_challenger.common.Enums;
+using ai_code_challenger.common.Utility;
 
-namespace ai_code_challenger.common.Request.Categories.Challenges;
+namespace ai_code_challenger.common.Request.Categories.Challenge;
 
 public class UpdateChallengeRequest : Request
 {

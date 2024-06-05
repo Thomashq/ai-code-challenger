@@ -1,7 +1,7 @@
 using System.Text;
 using ai_code_challenger;
 using ai_code_challenger.Api;
-using ai_code_challenger.common;
+using ai_code_challenger.common.Utility;
 using ai_code_challenger.EndPoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace ai_code_challenger.common;
+namespace ai_code_challenger.common.Utility;
 
 public static class EnumExtension
 {

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Reflection;
 using System.Security.Permissions;
+using ai_code_challenger.common.Model;
 
 namespace ai_code_challenger.Data
 {
@@ -15,9 +16,15 @@ namespace ai_code_challenger.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(BaseModel).IsAssignableFrom(entityType.ClrType))
+                {
+                    var entity = modelBuilder.Entity(entityType.ClrType);
+                    entity.Property<long>("Id").HasColumnName($"{entityType.ClrType.Name}Id");
+                }
+            }
             base.OnModelCreating(modelBuilder);
-            BaseModel.Configure(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetCallingAssembly());
         }
     }
 }
